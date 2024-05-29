@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "id": "740a",
+      "email": "Testing@gmail.com",
+      "password": "Test@123",
+      "role": "admin"
+    },
+    {
+      "id": "31a3",
+      "name": "hbnjhg111111",
+      "lastName": "hgjhgj266666",
+      "Dob": "2024-02-05T18:30:00.000Z",
+      "email": "jj12222@gmail.com",
+      "password": "Ff@12345",
+      "active": true,
+      "role": "users",
+      "type": "[User] Get User Add"
+    },
+    {
+      "id": "ee35",
+      "name": "Testing333",
+      "lastName": "test",
+      "Dob": "2024-02-01T18:30:00.000Z",
+      "email": "testa@gmail.com",
+      "password": "Test@123",
+      "active": true,
+      "role": "users",
+      "type": "[User] Get User Add"
+    },
+    {
+      "id": "3e76",
+      "name": "test",
+      "lastName": "test1",
+      "Dob": "2024-02-11T18:30:00.000Z",
+      "email": "test@gmail.com",
+      "password": "Test@123",
+      "active": true,
+      "role": "users",
+      "type": "[User] Get User Add"
+    },
+    {
+      "id": "54cc",
+      "name": "nn",
+      "lastName": "nn",
+      "Dob": "2024-02-07T18:30:00.000Z",
+      "email": "nn@gmail.com",
+      "password": "Test@123",
+      "active": true,
+      "role": "users",
+      "type": "[User] Get User Add"
+    }
+  ]
+}
