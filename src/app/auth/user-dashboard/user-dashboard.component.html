@@ -9,15 +9,17 @@
     </div>
     <div class="col-md-8">
       <h3>Profile</h3>
-      <p>
-        I’m Caroline Kassidy and I'm above 20 years and you can send your emails
-        to
-        <a href="mailto:caroline.kassidy@publicis.com"
-          >caroline.kassidy@publicis.com</a
-        >. I live in the state of Alaska. I like to play hockey, football, and
-        reading books. And please send me newsletters. Please reach out to me on
-        my phone number.
-      </p>
+      <label>
+        I’m {{ profileList?.firstName && profileList?.lastName }} and I'm above
+        {{ profileList?.age }} years and you can send your emails to
+        <a href="mailto:caroline.kassidy@publicis.com">{{
+          profileList?.email
+        }}</a
+        >. I live in the state of {{ profileList?.state }}. I like to play
+        hockey, football, and reading books. And please send me newsletters.
+        Please reach out to me on my phone number
+        {{ profileList?.phoneNumber }}.
+      </label>
     </div>
   </div>
 </div>

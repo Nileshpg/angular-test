@@ -74,9 +74,10 @@ export class HomeComponent implements OnInit {
       const response: any = await this.authService.addRegister(obj);
 
       if (response) {
+        this.Utility.userId = response.id;
+
         this.Utility.showSuccess("Data Added Successfully");
         const modal = document.querySelector(".reg") as HTMLButtonElement;
-
         if (modal) {
           modal.click();
         }

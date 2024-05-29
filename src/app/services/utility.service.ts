@@ -8,7 +8,7 @@ import { ToastrService } from "ngx-toastr";
 export class UtilityService {
   constructor(private toastr: ToastrService) {}
   public showSpinner = new BehaviorSubject<boolean>(false);
-
+  public userId = null;
   showError(message: string) {
     this.toastr.error(message);
   }

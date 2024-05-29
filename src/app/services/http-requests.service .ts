@@ -1,34 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { debounceTime, map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { UtilityService } from './utility.service';
-import { environment } from 'src/environments/environment';
-
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { map } from "rxjs/operators";
+import { UtilityService } from "./utility.service";
+import { environment } from "src/environments/environment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class HttpRequestsService {
   private hostUrl = environment.API_URL;
-  constructor(
-    public http: HttpClient,
-    private router: Router,
-    private utility: UtilityService
+  constructor(public http: HttpClient, private utility: UtilityService) {}
 
-  ) { }
-
-
-
-
-
-  post(
-    url: string,
-    body: any,
-
-  ) {
+  post(url: string, body: any) {
     return new Promise(async (resolve, reject) => {
-
       this.http
         .post(`${this.hostUrl}${url}`, body)
         .pipe(map((res) => res))
@@ -44,12 +28,8 @@ export class HttpRequestsService {
     });
   }
 
-
-  get(
-    url: string,
-  ) {
+  get(url: string) {
     return new Promise(async (resolve, reject) => {
-
       let response = this.http
         .get(`${this.hostUrl}${url}`)
         .pipe(map((res) => res));
@@ -66,14 +46,8 @@ export class HttpRequestsService {
     });
   }
 
-
-  put(
-    url: string,
-    body: any,
-
-  ) {
+  put(url: string, body: any) {
     return new Promise((resolve, reject) => {
-
       this.http
         .put(`${this.hostUrl}${url}`, body)
         .pipe(map((res) => res))
@@ -89,15 +63,8 @@ export class HttpRequestsService {
     });
   }
 
-
-
-
-  delete(
-    url: string,
-
-  ) {
+  delete(url: string) {
     return new Promise(async (resolve, reject) => {
-
       this.http
         .delete(`${this.hostUrl}${url}`)
         .pipe(
@@ -117,7 +84,6 @@ export class HttpRequestsService {
     });
   }
 
-
   patch(
     url: string,
     body: any,
@@ -125,7 +91,6 @@ export class HttpRequestsService {
     headerOptions: any = {}
   ) {
     return new Promise((resolve, reject) => {
-
       this.http
         .patch(`${this.hostUrl}${url}`, body)
         .pipe(map((res) => res))
@@ -141,17 +106,11 @@ export class HttpRequestsService {
     });
   }
 
-
   handleError = async (err: any) => {
     if (err.error.type == "error") {
       this.utility.showSuccess("Internal server error!");
-    }
-    else if (err.status === 404) {
+    } else if (err.status === 404) {
       this.utility.showError("Not Found");
     }
-
   };
-
-
-
 }
