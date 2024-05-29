@@ -1,34 +1,26 @@
-import { Injectable } from '@angular/core';
-import { API_PATH } from 'src/app/Constants/constants';
-import { BehaviorSubject, Observable, from, of } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { API_PATH } from "src/app/Constants/constants";
+import { BehaviorSubject, Observable, from, of } from "rxjs";
 // import { LocalStorageService } from '../local-storage.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { HttpRequestsService } from './http-requests.service';
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import { HttpRequestsService } from "./http-requests.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService {
   private hostUrl = environment.API_URL;
   constructor(
     private http: HttpRequestsService,
     // private localstorage: LocalStorageService,
-    private httpClient: HttpClient,
-  ) {
+    private httpClient: HttpClient
+  ) {}
 
-  }
-
-
-  login = async (queryList: any) => {
-    return this.http.get(API_PATH.AUTHENTICATION.LOGIN + queryList);
-  };
   // public isAuthenticated(): boolean {
   //   return !!this.localstorage.getLocalStore(LOCAL_STORAGE_KEYS.IS_LOGIN);
   // }
-  Logout = async (data: any) => {
-    return this.http.post(API_PATH.AUTHENTICATION.LOGOUT, data);
-  };
+
   // addUser = async (data: any) => {
   //   return this.http.post(API_PATH.USER.USER_ADD, data);
   // };
@@ -47,9 +39,9 @@ export class AuthService {
   //     data
   //   );
   // };
-  // addBlog = async (data: any) => {
-  //   return this.http.post(API_PATH.USER.ADD_BLOG, data);
-  // };
+  addRegister = async (data: any) => {
+    return this.http.post(API_PATH.REGISTER.ADD_REGISTER, data);
+  };
   // getBlogList = async (queryList: any) => {
   //   return this.http.get(API_PATH.USER.ADD_BLOG + queryList);
   // };
@@ -71,4 +63,10 @@ export class AuthService {
 
   // }
 
+  // getCountries() {
+  //   const language = "English";
+  //   return this.http.get(
+  //     `https://secure.geonames.org/countryInfoJSON?lang=${language}&username=ahii`
+  //   );
+  // }
 }

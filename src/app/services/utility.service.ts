@@ -1,29 +1,21 @@
-import { Injectable } from '@angular/core';
-import { LocalStorageService } from './local-storage.service';
-import { BehaviorSubject } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-
-
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UtilityService {
-  constructor(
-    private localstorageService: LocalStorageService,
-    private toastr: ToastrService
-  ) { }
+  constructor(private toastr: ToastrService) {}
   public showSpinner = new BehaviorSubject<boolean>(false);
 
-  showError(message: string, title?: string) {
-    this.toastr.error(message, title);
+  showError(message: string) {
+    this.toastr.error(message);
   }
 
-  showSuccess(message: string, title?: string) {
-    this.toastr.success(message, title);
+  showSuccess(message: string) {
+    this.toastr.success(message);
   }
-
- 
 
   show() {
     this.showSpinner.next(true);
@@ -32,9 +24,4 @@ export class UtilityService {
   hide() {
     this.showSpinner.next(false);
   }
-
-
-
-
-
 }

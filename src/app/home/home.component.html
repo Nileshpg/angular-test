@@ -1,50 +1,243 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Landing Page</title>
-  <!-- <link rel="stylesheet" href="style.css"> -->
-</head>
-<body>
+<div class="container">
   <header>
-    <div class="container">
-      <div class="logo"></div>
-      <nav>
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Clients</a></li>
-          <li><a href="#">Employers</a></li>
-          <li><a (click)="login">LOGIN</a></li>
-        </ul>
-      </nav>
-    </div>
+    <nav>
+      <div class="logo">DEMO APP</div>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">Clients</a></li>
+        <li><a href="#">Employers</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </nav>
   </header>
-  <main>
-    <div class="container">
-      <div class="hero">
-        <h1>We're Leaders in Creative Digital Recruitment</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-        <button>Learn More</button>
+
+  <section class="search-section">
+    <button
+      type="button"
+      class="btn btn-primary me-2"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      Register
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary me-2"
+      data-bs-toggle="modal"
+      data-bs-target="#staticBackdrop"
+      (click)="goTo()"
+    >
+      User Profile
+    </button>
+  </section>
+
+  <section class="intro-section">
+    <h2>We're leaders in</h2>
+    <h3>Creative Digital Recruitment</h3>
+    <p>
+      Based in Surry Hills, the creative hub of Sydney we are surrounded by
+      creativity and that reflects on the type of jobs we recruit for.
+    </p>
+    <button class="about-button">Find out more about us!</button>
+  </section>
+</div>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Register Form</h1>
+        <button
+          type="button"
+          class="btn-close reg"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
       </div>
-      <div class="search">
-        <input type="text" placeholder="Enter a Job Description">
-        <button type="submit">Search</button>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-group mb-3">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              formControlName="firstName"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                (registerForm.get('firstName').touched || isSubmitted) &&
+                registerForm.get('firstName').invalid
+              "
+              class="text-danger"
+            >
+              First Name is required
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              formControlName="lastName"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                (registerForm.get('lastName').touched || isSubmitted) &&
+                registerForm.get('lastName').invalid
+              "
+              class="text-danger"
+            >
+              Last Name is required
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                (registerForm.get('email').touched || isSubmitted) &&
+                registerForm.get('email').invalid
+              "
+              class="text-danger"
+            >
+              Valid Email is required
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="phone">Phone</label>
+            <input
+              type="number"
+              id="phone"
+              formControlName="phone"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                (registerForm.get('phone').touched || isSubmitted) &&
+                registerForm.get('phone').invalid
+              "
+              class="text-danger"
+            >
+              Phone number is required
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="age">Age</label>
+            <input
+              type="range"
+              id="age"
+              formControlName="age"
+              min="20"
+              max="60"
+              class="form-range"
+            />
+            <div
+              *ngIf="
+                (registerForm.get('age').touched || isSubmitted) &&
+                registerForm.get('age').invalid
+              "
+              class="text-danger"
+            >
+              Age between 20 and 60 is required
+            </div>
+            <div>Selected Age: {{ registerForm.value["age"] }}</div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="state">State</label>
+            <input
+              type="text"
+              id="state"
+              formControlName="state"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                (registerForm.get('state').touched || isSubmitted) &&
+                registerForm.get('state').invalid
+              "
+              class="text-danger"
+            >
+              State is required
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="country">Country</label>
+            <input
+              type="text"
+              id="country"
+              formControlName="country"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                (registerForm.get('country').touched || isSubmitted) &&
+                registerForm.get('country').invalid
+              "
+              class="text-danger"
+            >
+              Country is required
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="address">Address</label>
+
+            <textarea
+              id="address"
+              formControlName="address"
+              class="form-control"
+            ></textarea>
+            <div
+              *ngIf="
+                (registerForm.get('address').touched || isSubmitted) &&
+                registerForm.get('address').invalid
+              "
+              class="text-danger"
+            >
+              Address is required
+            </div>
+          </div>
+
+          <div class="form-group form-check mb-3">
+            <input
+              type="checkbox"
+              id="newsletter"
+              formControlName="newsletter"
+              class="form-check-input"
+            />
+            <label for="newsletter" class="form-check-label"
+              >Subscribe to newsletter</label
+            >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="closeModal()"
+        >
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+          Submit
+        </button>
       </div>
     </div>
-    <button (click)="onModalOpen()">Registration</button>
-  </main>
-
-</body>
-</html>
-
-
-
-  
-
-      <ng-template #modalOpen>
-<h2>test</h2>
-      </ng-template>
-    
-
-
+  </div>
+</div>
