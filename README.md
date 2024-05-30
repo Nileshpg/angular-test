@@ -1,27 +1,32 @@
 # AngularTest
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.9.
+This project is an Angular application generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.9 and Node.js version 8.17.0.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+To run the development server, follow these steps:
 
-## Code scaffolding
+1. Make sure you have Node.js installed on your machine. You can download it from [here](https://nodejs.org/).
+2. Install Angular CLI globally by running `npm install -g @angular/cli`.
+3. Clone this repository to your local machine.
+4. Navigate to the project directory in your terminal.
+5. Run `npm install` to install project dependencies.
+6. Run `ng serve` for a dev server.
+7. Navigate to `http://localhost:4200/` in your browser to view the application.
+8. The app will automatically reload if you change any of the source files.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## JSON server
 
-## Build
+This project uses JSON Server as a mock backend. To run the JSON server, follow these steps:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+1. Make sure you have Node.js installed on your machine. You can download it from [here](https://nodejs.org/).
+2. Install JSON Server globally by running `npm install -g json-server`.
+3. Make sure you have a `dataBase.json` file in the root directory of your project.
+4. Run `json-server --watch dataBase.json` for a dev server.
+5. Navigate to `http://localhost:8000/` in your browser to access the JSON server.
 
-## Running unit tests
+## Additional Notes
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- The `dataBase.json` file should contain your mock data in JSON format.
+- Make sure to configure your Angular application to interact with the JSON server endpoints as needed.
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
