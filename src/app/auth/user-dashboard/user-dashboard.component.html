@@ -1,11 +1,9 @@
-<div class="container mt-5">
+<div class="container mt-5 custom-background">
   <div class="row">
     <div class="col-md-4">
-      <img
-        src="assets/profile-photo.jpg"
-        class="img-fluid rounded-circle"
-        alt="Profile Photo"
-      />
+      <div *ngIf="profileList.profileImgae">
+        <img [src]="profileList.profileImgae" alt="Selected Image" />
+      </div>
     </div>
     <div class="col-md-8">
       <h3>Profile</h3>
@@ -15,9 +13,9 @@
         <a href="mailto:caroline.kassidy@publicis.com">{{
           profileList?.email
         }}</a
-        >. I live in the state of {{ profileList?.state }}. I like to play
-        hockey, football, and reading books. And please send me newsletters.
-        Please reach out to me on my phone number
+        >. I live in the {{ profileList?.state }} of {{ profileList?.country }}.
+        I like to play {{ profileList?.tag }} and reading books. And please send
+        me newsletters. Please reach out to me on my phone number
         {{ profileList?.phoneNumber }}.
       </label>
     </div>

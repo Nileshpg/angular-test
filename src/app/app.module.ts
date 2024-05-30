@@ -7,6 +7,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
+
 import { HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 

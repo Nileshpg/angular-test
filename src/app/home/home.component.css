@@ -136,11 +136,22 @@ header ul li a {
 
 
 
-
 h5 {
   margin-block: 10px;
 }
 
 .text-danger {
   color: red;
+}
+
+.file-inputs {
+  visibility: hidden;
+}
+
+img.upload {
+  width: 100%;
+  max-width: 40px;
+  position: relative;
+  top: -34px;
+  left: 30px;
 }

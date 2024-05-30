@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { ToastrService } from "ngx-toastr";
+import { IndividualConfig, ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",

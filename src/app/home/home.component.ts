@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ROUTE_PATH } from "../Constants/constants";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegexEnum } from "../Constants/regex";
@@ -12,12 +12,14 @@ import { UtilityService } from "../services/utility.service";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
+  base64Image: string | ArrayBuffer | null = null;
+
   registerForm: FormGroup;
   modalInstance: any;
   showModal: boolean = false;
   isSubmitted = false;
   selectedAge: number = 20;
-
+  sports: string[] = ["Football", "Basketball", "Tennis", "Cricket"];
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -40,6 +42,8 @@ export class HomeComponent implements OnInit {
       country: ["", [Validators.required]],
       address: ["", [Validators.required]],
       newsletter: ["", [Validators.required]],
+      profileImgae: ["", [Validators.required]],
+      tag: ["", [Validators.required]],
     });
   }
   get form() {
@@ -49,6 +53,7 @@ export class HomeComponent implements OnInit {
   closeModal() {
     this.isSubmitted = false;
     this.registerForm.reset();
+    this.base64Image = "";
   }
 
   async onSubmit() {
@@ -69,13 +74,14 @@ export class HomeComponent implements OnInit {
         country: this.registerForm.controls["country"].value,
         address: this.registerForm.controls["address"].value,
         newsletter: this.registerForm.controls["newsletter"].value,
+        profileImgae: this.base64Image,
+        tag: this.registerForm.controls["tag"].value,
       };
 
       const response: any = await this.authService.addRegister(obj);
 
       if (response) {
         this.Utility.userId = response.id;
-
         this.Utility.showSuccess("Data Added Successfully");
         const modal = document.querySelector(".reg") as HTMLButtonElement;
         if (modal) {
@@ -89,5 +95,23 @@ export class HomeComponent implements OnInit {
   }
   goTo() {
     this.router.navigate([ROUTE_PATH.DASHBOARD]);
+  }
+
+  handleFileSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const result = e.target.result;
+        if (typeof result === "string") {
+          this.base64Image = result;
+        } else {
+          console.error("Unexpected result type:", typeof result);
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      console.log("No file selected");
+    }
   }
 }
