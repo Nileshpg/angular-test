@@ -7,4 +7,7 @@ export const API_PATH = {
   REGISTER: {
     ADD_REGISTER: "register",
   },
+  ADDRESS: {
+    COUNTRIES: "countries",
+  },
 };

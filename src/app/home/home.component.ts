@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
   isSubmitted = false;
   selectedAge: number = 20;
   sports: string[] = ["Football", "Basketball", "Tennis", "Cricket"];
+  countriesList :any =[]
+  statesList:any=[]
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -29,6 +31,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.formInit();
+    this.getCountries()
   }
 
   formInit() {
@@ -70,8 +73,8 @@ export class HomeComponent implements OnInit {
         email: this.registerForm.controls["email"].value,
         phoneNumber: this.registerForm.controls["phone"].value,
         age: this.registerForm.controls["age"].value,
-        state: this.registerForm.controls["state"].value,
-        country: this.registerForm.controls["country"].value,
+        state_id: this.registerForm.controls["state"].value,
+        country_id: this.registerForm.controls["country"].value,
         address: this.registerForm.controls["address"].value,
         newsletter: this.registerForm.controls["newsletter"].value,
         profileImgae: this.base64Image,
@@ -114,4 +117,18 @@ export class HomeComponent implements OnInit {
       console.log("No file selected");
     }
   }
+  async getCountries(){
+    const response: any = await this.authService.getCountries();
+    if(response){
+      this.countriesList =response
+    }
+  }
+  async getcountryId(event){
+  this.registerForm.controls["state"].patchValue ("")
+  const response: any = await this.authService.getCountriesIdByStatesList(event.target.value);
+  if(response){
+    this.statesList=response.states 
+  }
+  }
+
 }

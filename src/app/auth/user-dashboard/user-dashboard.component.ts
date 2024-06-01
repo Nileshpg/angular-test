@@ -8,7 +8,9 @@ import { UtilityService } from "src/app/services/utility.service";
   styleUrls: ["./user-dashboard.component.css"],
 })
 export class UserDashboardComponent implements OnInit {
-  profileList: "";
+  profileList:any=[];
+  countriesList=[]
+  statesList=[]
 
   constructor(
     private authService: AuthService,
@@ -19,11 +21,63 @@ export class UserDashboardComponent implements OnInit {
     this.getList();
   }
   async getList() {
-    const response: any = await this.authService.getUserList(
-      this.Utility.userId
-    );
-    if (response) {
-      this.profileList = response;
+    try{
+      
+      const response: any = await this.authService.getUserList(
+        this.Utility.userId
+      );
+      if (response) {
+        this.profileList =response
+        await this.getCountries()
+       await this.getstates(this.profileList.country_id)
+       
+  
+const matchingCountry = this.countriesList.filter(country => {
+  return country.id == this.profileList.country_id;
+});
+
+if (matchingCountry.length > 0) {
+  this.profileList.country_name = matchingCountry[0].country_name;
+}
+
+const matchingState = this.statesList.filter(state => {
+  return state.id == this.profileList.state_id;
+});
+
+if (matchingState.length > 0) {
+  this.profileList.state_name = matchingState[0].state_name;
+}
+
+       
+
+      
+        
+       
+        
+  
+      }
+    }catch(error){
+      console.log("error",error);
+      
+
     }
   }
+
+  async getCountries(){
+    const response: any = await this.authService.getCountries();
+    if(response){
+      this.countriesList =response
+    }
+  }
+  async getstates(id){
+  const response: any = await this.authService.getCountriesIdByStatesList(id);
+  if(response){
+    this.statesList=response.states 
+  }
+  }
+
+
+
+
+
 }
