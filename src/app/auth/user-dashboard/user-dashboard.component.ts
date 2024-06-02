@@ -47,14 +47,6 @@ const matchingState = this.statesList.filter(state => {
 if (matchingState.length > 0) {
   this.profileList.state_name = matchingState[0].state_name;
 }
-
-       
-
-      
-        
-       
-        
-  
       }
     }catch(error){
       console.log("error",error);

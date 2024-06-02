@@ -10,6 +10,7 @@ import { ToastrModule } from "ngx-toastr";
 
 import { HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
+import { RegisterModule } from "./register/register.module";
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -22,7 +23,12 @@ import { CommonModule } from "@angular/common";
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     HttpClientModule,
+    RegisterModule
+    
+    
+
   ],
+
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -43,7 +43,11 @@
     <button class="about-button">Find out more about us!</button>
   </section>
 </div>
-<div
+
+<app-register></app-register>
+
+
+<!-- <div
   class="modal fade"
   id="exampleModal"
   tabindex="-1"
@@ -244,24 +248,37 @@
               Address is required
             </div>
           </div>
+      
           <div class="form-group mb-3">
-            <label id="tag" for="tag">Tags</label>
-            <select formControlName="tag" [multiple]="true">
-              <option *ngFor="let sport of sports" [value]="sport">
-                {{ sport }}
-              </option>
-            </select>
-
-            <div
-              *ngIf="
-                registerForm.get('tag').touched &&
-                registerForm.get('tag').errors
-              "
-              class="text-danger"
-            >
-              Tag is required
+            <label for="tags">Tags</label>
+            <div class="tags-input">
+             
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Add a tag" formControlName="tagInput" (keydown.enter)="addTag()" />
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button" (click)="addTag()">Add Tag</button>
+                </div>
+               
+              </div> 
+              <div *ngFor="let tag of tags" class="tag badge badge-primary">
+                {{ tag }} <span (click)="removeTag(tag)" class="tag-remove">&times;</span>
+              </div>             
             </div>
+            <div
+           
+            *ngIf="
+            (registerForm.get('tagInput').touched || isSubmitted) &&
+            registerForm.get('tagInput').invalid
+          "
+            class="text-danger"
+          >
+            Tag is required
           </div>
+          </div>
+          
+          
+          
+          
 
           <div class="form-group form-check mb-3">
             <input
@@ -300,4 +317,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
