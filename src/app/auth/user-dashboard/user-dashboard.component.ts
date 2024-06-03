@@ -11,6 +11,9 @@ export class UserDashboardComponent implements OnInit {
   profileList:any=[];
   countriesList=[]
   statesList=[]
+  selectedUserId: number | null = null;
+  isEditing: boolean = false;
+
 
   constructor(
     private authService: AuthService,
@@ -67,7 +70,12 @@ if (matchingState.length > 0) {
     this.statesList=response.states 
   }
   }
-
+ 
+  editProfile(userId: number): void {
+    this.selectedUserId = userId;
+    this.isEditing = true;
+  }
+  
 
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { RegexEnum } from "src/app/Constants/regex";
@@ -10,10 +10,12 @@ import { UtilityService } from "src/app/services/utility.service";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  @Input() userId: string; 
 
   base64Image: string | ArrayBuffer | null = null;
+  profileList:any =[]
 
-  registerForm: FormGroup;
+  registerForm: FormGroup;  
   modalInstance: any;
   showModal: boolean = false;
   isSubmitted = false;
@@ -29,6 +31,13 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.userId) {
+      console.log("iddd",this.userId);
+      
+      this.formInit();
+      // this.getList()  
+      this.getCountries()
+    }
     this.formInit();
     this.getCountries()
   }
@@ -125,7 +134,7 @@ export class RegisterComponent implements OnInit {
       this.countriesList =response
     }
   }
-  async getcountryId(event){
+  async getstates(event){
   this.registerForm.controls["state"].patchValue ("")
   const response: any = await this.authService.getCountriesIdByStatesList(event.target.value);
   if(response){
@@ -145,5 +154,39 @@ export class RegisterComponent implements OnInit {
 
   removeTag(tag: string) {
     this.tags = this.tags.filter(t => t !== tag);
+  }
+  async getList() {
+    try{
+      
+      const response: any = await this.authService.getUserList(
+        this.Utility.userId
+      );
+      if (response) {
+        this.profileList =response
+        await this.getCountries()
+       await this.getstates(this.profileList.country_id)
+       
+  
+const matchingCountry = this.countriesList.filter(country => {
+  return country.id == this.profileList.country_id;
+});
+
+if (matchingCountry.length > 0) {
+  this.profileList.country_name = matchingCountry[0].country_name;
+}
+
+const matchingState = this.statesList.filter(state => {
+  return state.id == this.profileList.state_id;
+});
+
+if (matchingState.length > 0) {
+  this.profileList.state_name = matchingState[0].state_name;
+}
+      }
+    }catch(error){
+      console.log("error",error);
+      
+
+    }
   }
 }

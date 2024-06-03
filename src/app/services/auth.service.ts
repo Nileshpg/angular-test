@@ -27,6 +27,10 @@ export class AuthService {
   getCountriesIdByStatesList = async (id) => {
     return this.http.get(`${API_PATH.ADDRESS.COUNTRIES}/${id}`);
   };
+  UpdateUsersList = (id: any, data: any) => {
+    return this.httpClient.patch(`${API_PATH.REGISTER.ADD_REGISTER}/${id}`, data)
+
+  }
 
 
 
