@@ -1,45 +1,45 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegexEnum } from "src/app/Constants/regex";
 import { AuthService } from "src/app/services/auth.service";
 import { UtilityService } from "src/app/services/utility.service";
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: "app-register",
+  templateUrl: "./register.component.html",
+  styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnInit {
-  @Input() userId: string; 
-
   base64Image: string | ArrayBuffer | null = null;
-  profileList:any =[]
-
-  registerForm: FormGroup;  
+  profileList: any = [];
+  registerForm: FormGroup;
   modalInstance: any;
   showModal: boolean = false;
   isSubmitted = false;
   selectedAge: number = 20;
-  tags: string[] = [];
-  countriesList :any =[]
-  statesList:any=[]
+  tags = [];
+  countriesList: any = [];
+  statesList: any = [];
+  @Input() editId: any;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router,
     private Utility: UtilityService
   ) {}
 
-  ngOnInit() {
-    if (this.userId) {
-      console.log("iddd",this.userId);
-      
-      this.formInit();
-      // this.getList()  
-      this.getCountries()
-    }
+  async ngOnInit() {
     this.formInit();
-    this.getCountries()
+    this.getCountries();
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+    this.Utility.getUserIdValue.subscribe(async (data) => {
+      this.editId = data;
+      if (changes["editId"] && this.editId) {
+        await this.getList();
+        this.setValue();
+        await this.getCountries();
+      }
+    });
   }
 
   formInit() {
@@ -53,7 +53,6 @@ export class RegisterComponent implements OnInit {
       country: ["", [Validators.required]],
       address: ["", [Validators.required]],
       newsletter: [""],
-      profileImgae: ["", [Validators.required]],
       tagInput: ["", [Validators.required]],
     });
   }
@@ -65,14 +64,15 @@ export class RegisterComponent implements OnInit {
     this.isSubmitted = false;
     this.registerForm.reset();
     this.base64Image = "";
-    this.tags=[]
+    this.tags = [];
+    // this.editId = undefined;
+    this.Utility.userEditId.next(null);
   }
 
   async onSubmit() {
     try {
       this.isSubmitted = true;
-      this.registerForm.controls['tagInput'].setValue(this.tags)
-      
+      this.registerForm.controls["tagInput"].setValue(this.tags);
 
       if (this.registerForm.invalid) {
         return;
@@ -91,11 +91,17 @@ export class RegisterComponent implements OnInit {
         profileImgae: this.base64Image,
         tagInput: this.registerForm.controls["tagInput"].value,
       };
-
-      const response: any = await this.authService.addRegister(obj);
+      let response;
+      if (this.editId) {
+        response = await this.authService.UpdateUsersList(this.editId, obj);
+      } else {
+        response = await this.authService.addRegister(obj);
+      }
 
       if (response) {
+        this.editId = response.id;
         this.Utility.userId = response.id;
+        this.Utility.userUpdateMethod.next(true);
         this.Utility.showSuccess("Data Added Successfully");
         const modal = document.querySelector(".reg") as HTMLButtonElement;
         if (modal) {
@@ -105,11 +111,10 @@ export class RegisterComponent implements OnInit {
       }
     } catch (error) {
       console.log("error");
-      
+
       this.Utility.showError("No Data found");
     }
   }
-
 
   handleFileSelect(event: any) {
     const file = event.target.files[0];
@@ -128,65 +133,68 @@ export class RegisterComponent implements OnInit {
       console.log("No file selected");
     }
   }
-  async getCountries(){
+  async getCountries() {
     const response: any = await this.authService.getCountries();
-    if(response){
-      this.countriesList =response
+    if (response) {
+      this.countriesList = response;
     }
   }
-  async getstates(event){
-  this.registerForm.controls["state"].patchValue ("")
-  const response: any = await this.authService.getCountriesIdByStatesList(event.target.value);
-  if(response){
-    this.statesList=response.states 
-  }
+  async getstates(event) {
+    this.registerForm.controls["state"].patchValue("");
+
+    let response;
+    if (this.editId) {
+      response = await this.authService.getCountriesIdByStatesList(
+        this.profileList.country_id
+      );
+    } else {
+      response = await this.authService.getCountriesIdByStatesList(
+        event.target.value
+      );
+    }
+    if (response) {
+      this.statesList = response.states;
+    }
   }
 
   addTag() {
     const tagInputControl = this.registerForm.controls["tagInput"];
-    const newTag = tagInputControl.value.trim(); 
+    const newTag = tagInputControl.value.trim();
+
     if (newTag && !this.tags.includes(newTag)) {
       this.tags.push(newTag);
       tagInputControl.reset();
-    } 
-   
+    }
   }
 
   removeTag(tag: string) {
-    this.tags = this.tags.filter(t => t !== tag);
+    this.tags = this.tags.filter((t) => t !== tag);
   }
   async getList() {
-    try{
-      
-      const response: any = await this.authService.getUserList(
-        this.Utility.userId
-      );
+    try {
+      const response: any = await this.authService.getUserList(this.editId);
       if (response) {
-        this.profileList =response
-        await this.getCountries()
-       await this.getstates(this.profileList.country_id)
-       
-  
-const matchingCountry = this.countriesList.filter(country => {
-  return country.id == this.profileList.country_id;
-});
-
-if (matchingCountry.length > 0) {
-  this.profileList.country_name = matchingCountry[0].country_name;
-}
-
-const matchingState = this.statesList.filter(state => {
-  return state.id == this.profileList.state_id;
-});
-
-if (matchingState.length > 0) {
-  this.profileList.state_name = matchingState[0].state_name;
-}
+        this.profileList = response;
       }
-    }catch(error){
-      console.log("error",error);
-      
-
+    } catch (error) {
+      console.log("error", error);
     }
+  }
+  setValue() {
+    this.base64Image = this.profileList.profileImgae;
+    this.getstates(this.profileList.country_id);
+    this.registerForm.patchValue({
+      firstName: this.profileList.firstName,
+      lastName: this.profileList.lastName,
+      email: this.profileList.email,
+      phone: this.profileList.phoneNumber,
+      age: this.profileList.age,
+      state: this.profileList.state_id,
+      country: this.profileList.country_id,
+      address: this.profileList.address,
+      newsletter: this.profileList.newsletter,
+      profileImgae: this.base64Image,
+    });
+    this.tags = this.profileList.tagInput;
   }
 }

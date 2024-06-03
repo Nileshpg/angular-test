@@ -8,76 +8,72 @@ import { UtilityService } from "src/app/services/utility.service";
   styleUrls: ["./user-dashboard.component.css"],
 })
 export class UserDashboardComponent implements OnInit {
-  profileList:any=[];
-  countriesList=[]
-  statesList=[]
+  profileList: any = [];
+  countriesList = [];
+  statesList = [];
   selectedUserId: number | null = null;
-  isEditing: boolean = false;
-
+  userId: number;
 
   constructor(
     private authService: AuthService,
     private Utility: UtilityService
-  ) {}
+  ) {
+    this.Utility.getUserUpdateMethod.subscribe((data) => {
+      if (data) {
+        this.getList();
+      }
+    });
+  }
 
   ngOnInit() {
     this.getList();
   }
   async getList() {
-    try{
-      
+    try {
       const response: any = await this.authService.getUserList(
         this.Utility.userId
       );
       if (response) {
-        this.profileList =response
-        await this.getCountries()
-       await this.getstates(this.profileList.country_id)
-       
-  
-const matchingCountry = this.countriesList.filter(country => {
-  return country.id == this.profileList.country_id;
-});
+        this.Utility.userUpdateMethod.next(false);
+        this.profileList = response;
+        await this.getCountries();
+        await this.getstates(this.profileList.country_id);
 
-if (matchingCountry.length > 0) {
-  this.profileList.country_name = matchingCountry[0].country_name;
-}
+        const matchingCountry = this.countriesList.filter((country) => {
+          return country.id == this.profileList.country_id;
+        });
 
-const matchingState = this.statesList.filter(state => {
-  return state.id == this.profileList.state_id;
-});
+        if (matchingCountry.length > 0) {
+          this.profileList.country_name = matchingCountry[0].country_name;
+        }
 
-if (matchingState.length > 0) {
-  this.profileList.state_name = matchingState[0].state_name;
-}
+        const matchingState = this.statesList.filter((state) => {
+          return state.id == this.profileList.state_id;
+        });
+
+        if (matchingState.length > 0) {
+          this.profileList.state_name = matchingState[0].state_name;
+        }
       }
-    }catch(error){
-      console.log("error",error);
-      
-
+    } catch (error) {
+      console.log("error", error);
     }
   }
 
-  async getCountries(){
+  async getCountries() {
     const response: any = await this.authService.getCountries();
-    if(response){
-      this.countriesList =response
+    if (response) {
+      this.countriesList = response;
     }
   }
-  async getstates(id){
-  const response: any = await this.authService.getCountriesIdByStatesList(id);
-  if(response){
-    this.statesList=response.states 
+  async getstates(id) {
+    const response: any = await this.authService.getCountriesIdByStatesList(id);
+    if (response) {
+      this.statesList = response.states;
+    }
   }
+
+  editProfile(id: number): void {
+    this.Utility.userEditId.next(id);
   }
- 
-  editProfile(userId: number): void {
-    this.selectedUserId = userId;
-    this.isEditing = true;
-  }
-  
-
-
-
-
 }

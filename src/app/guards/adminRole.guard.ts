@@ -17,6 +17,8 @@ export class adminGuard {
   async canActivate() {
     if (this.utility.userId) {
       const userRole: any = await this.auth.getUserList(this.utility.userId);
+      console.log("====>", userRole);
+
       if (userRole) {
         return true;
       }

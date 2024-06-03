@@ -8,7 +8,18 @@ import { IndividualConfig, ToastrService } from "ngx-toastr";
 export class UtilityService {
   constructor(private toastr: ToastrService) {}
   public showSpinner = new BehaviorSubject<boolean>(false);
-  public userId = "73";
+  public userEditId: BehaviorSubject<any> = new BehaviorSubject(null);
+
+  public get getUserIdValue() {
+    return this.userEditId.asObservable();
+  }
+  public userUpdateMethod = new BehaviorSubject<boolean>(false);
+
+  public get getUserUpdateMethod() {
+    return this.userUpdateMethod.asObservable();
+  }
+
+  public userId = null;
   showError(message: string) {
     this.toastr.error(message);
   }

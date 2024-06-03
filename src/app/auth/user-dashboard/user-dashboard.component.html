@@ -4,54 +4,36 @@
       <div *ngIf="profileList.profileImgae">
         <img [src]="profileList.profileImgae" alt="Selected Image" />
       </div>
-      <section class="search-section">
-        <button
-          type="button"
-          class="btn btn-primary me-2"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-          (click)="editProfile(profileList.id)"
-  
-          
-        >
-          Edit Profile
-        </button>
-      </section>
-      <app-register *ngIf="isEditing" [userId]="selectedUserId"></app-register>
-      
+      <button
+        type="button"
+        class="btn btn-primary me-2 set-margin"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        (click)="editProfile(profileList.id)"
+      >
+        Edit Profile
+      </button>
+      <app-register [editId]="userId"></app-register>
     </div>
 
-  
-
-
-
-    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <!-- Include the app-register component -->
-            <app-register [userId]="selectedUserId"></app-register>
-          </div>
-        </div>
-      </div>
-    </div>
-   
     <div class="col-md-8">
       <h3>Profile</h3>
       <label>
-        I’m {{ profileList?.firstName && profileList?.lastName }} and I'm above
-        {{ profileList?.age }} years and you can send your emails to
+        I’m {{ profileList?.firstName }} {{ profileList?.lastName }} and I'm
+        above {{ profileList?.age }} years and you can send your emails to
         <a href="mailto:caroline.kassidy@publicis.com">{{
           profileList?.email
         }}</a
-        >. I live in the {{ profileList?.state_name }} of {{ profileList?.country_name }}.
-        I like to play {{ profileList?.tagInput
-        }} . {{profileList.newsletter ?"And please send
-        me newsletters.":""}} Please reach out to me on my phone number
+        >. I live in the {{ profileList?.state_name }} of
+        {{ profileList?.country_name }}. I like to play
+        {{ profileList?.tagInput }} .
+        {{
+          profileList.newsletter
+            ? "And please send
+        me newsletters."
+            : ""
+        }}
+        Please reach out to me on my phone number
         {{ profileList?.phoneNumber }}.
       </label>
     </div>
